@@ -9,6 +9,7 @@
 module Basic where
 
 import Control.Lens
+import Control.Lens.Unsound
 import Control.Applicative
 import Data.Char
 import qualified Data.Map as M
@@ -107,5 +108,75 @@ conditional = lens getConditional setConditional
 data Err =
     ReallyBadError { _msg :: String }
   | ExitCode { _code :: Int }
+  deriving (Eq)
 
-  
+type UserId = String
+type UserName = String
+
+data Session =
+  Session { _userId :: UserId
+          , _userName :: UserName
+          , _createdTime :: String
+          , _expiryTime :: String
+          }
+  deriving (Show, Eq)
+
+makeLenses ''Session
+
+userInfo :: Lens' Session (UserId, UserName)
+userInfo = lensProduct userId userName
+
+
+exampleSession :: Session
+exampleSession =
+  Session { _userId = "USER1233"
+          , _userName = "Joey Tribbiani"
+          , _createdTime = "2019-12-1"
+          , _expiryTime = "2020-12-1"
+          }
+
+alongsideUserId :: Lens' Session (Session, UserId)
+alongsideUserId = lensProduct id userId
+
+executionAppender :: Lens' ([a], a) a
+executionAppender = lens getCnt setCnt
+  where
+    getCnt (_, a) = a
+    setCnt (ls, a) newVal = ((a:ls), newVal)
+
+msg :: Lens' Err String
+msg = lens getMsg setMsg
+  where
+    getMsg (ReallyBadError message) = message
+    getMsg (ExitCode _) = ""
+    setMsg (ReallyBadError _) newMessage = (ReallyBadError newMessage)
+    setMsg (ExitCode code) _ = ExitCode code
+
+
+badError = ReallyBadError { _msg = "FatalError" }
+exitCode = ExitCode { _code = 3 }
+newMessage = "New Fatal Error"
+newMessage2 = "NullPointerException"
+
+setGet1 =
+  view msg (set msg newMessage badError) == newMessage
+
+setGet2 =
+  view msg (set msg newMessage exitCode) == newMessage
+
+setSet1 =
+  set msg newMessage2 (set msg newMessage badError) == set msg newMessage2 badError
+
+setSet2 =
+  set msg newMessage2 (set msg newMessage exitCode) == set msg newMessage2 exitCode
+
+
+-- From Answers
+
+flipper :: Lens' (Bool, a, a) a
+flipper = lens getter setter
+  where
+    getter (True, a, _)  = a
+    getter (False, _, a) = a
+    setter (True,  a, b) newVal = (False, newVal, b)
+    setter (False, a, b) newVal = (True, a, newVal)
