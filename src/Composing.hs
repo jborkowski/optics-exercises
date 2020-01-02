@@ -9,12 +9,6 @@
 module Composing where
 
 import Control.Lens
-import Control.Lens.Unsound
-import Control.Applicative
-import Data.Char
-import qualified Data.Map as M
-import qualified Data.Set as S
-import qualified Data.Text as T
 
 data Person =
   Person { _name :: String
@@ -82,3 +76,32 @@ movedSherlock =
 -- Important
 -- Modifier - every function which accepts and returns the same type
 -- Updater  - function accepts and returns modifiers
+
+-- Exercises:
+waldo = view (_2 . _1 . _2) ("Ginerva", ((("Galileo", "Waldo"), "Malfoy")))
+
+-- fiveEightDomino :: Lens' Five Eight
+-- mysteryDomino   :: Lens' Eight Two
+-- twoThreeDomino  :: Lens' Two Three
+
+-- dominoTrain :: Lens' Five Three
+-- dominoTrain = fiveEightDomino . mysteryDomino . twoThreeDomino
+
+-- Functor f => (Armadillo -> f Hedgehog) -> (Platypus -> f BabySloth)
+
+-- Lens s t a b
+-- Armadillo - <a> pre-focus
+-- Hedgehog - <b> post-focus 
+-- Platypus - <s> pre-action
+-- BabySloth - <t> post-action
+
+-- spuzorktrowmble   ::  Lens Chumble      Spuzz      Gazork       Trowlg
+-- gazorlglesnatchka ::  Lens Gazork       Trowlg     Bandersnatch Yakka
+-- zinkattumblezz    ::  Lens Zink         Wattoom    Chumble      Spuzz
+-- gruggazinkoom     ::  Lens Grug         Pubbawup   Zink         Wattoom
+-- banderyakoobog    ::  Lens Bandersnatch Yakka      Foob         Mog
+-- boowockugwup      ::  Lens Boojum       Jabberwock Grug         Pubbawup
+-- snajubjumwock     ::  Lens Snark        JubJub     Boojum       Jabberwock
+
+-- snajbufoogog :: Lens Snark JubJub Foob Mog
+-- snajbufoogog = snajubjumwock . boowockugwup . gruggazinkoom . zinkattumblezz . spuzorktrowmble . gazorlglesnatchka . banderyakoobog
