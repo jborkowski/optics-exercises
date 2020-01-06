@@ -14,6 +14,7 @@ import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Set as S
 import Data.Char (toUpper)
+import Data.Ord (comparing)
 
 --“folding :: Foldable f => (s -> f a) -> Fold s a”
 -- “folded :: Foldable f => Fold (f a) a”
@@ -140,3 +141,35 @@ res60 = [(1, "one"), (2, "tow")] ^.. folded . folding (\(a,b) -> [Left a, Right 
 res61 = S.fromList ["apricots",  "apples"] ^.. folded . folding reverse
 res62 =  [(12, 45, 66), (91, 123, 87)] ^.. folded . _2 . to show . to reverse . folded -- "54321"
 res63 =[(1, "a"), (2, "b"), (3, "c"), (4, "d")] ^.. folded . folding (\(a,b) -> if odd a then Nothing else Just b) -- ["b","d"]
+
+
+
+-- Exercise: Fold Actions
+res70 = has folded []
+res71 = foldOf both ("Yo", "Adrian!")
+res72 = elemOf both "phone" ("E.T.", "phone", "home")
+res73 = minimumOf folded [5,7,2,3,13,16,11]
+res74 = lastOf folded [5,7,2,3,13,16,11]
+res75 = allOf folded ((>9) . length) ["Bulbasaur", "Charmander", "Squirtle"]
+res76 = findOf folded even [11,22,3,5,6]
+
+res80 = findOf folded isPalindrome ["umbrella", "olives", "racecar", "hammer"]
+
+isPalindrome :: String -> Bool
+isPalindrome w = w == reverse w
+
+res81 = allOf each even (2, 4, 6)
+res82 = maximumByOf folded (comparing fst) [(2, "I'll"), (3, "Be"), (1, "Back")]
+res83 = sumOf each (1,2)
+
+res84 = maximumByOf (folding words) (comparing (length . filter isVowel)) "Do or do not, there is no try."
+
+isVowel :: Char -> Bool
+isVowel c = c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y'
+
+res85 = foldBy (flip (++)) "" ["a", "b", "c"]
+
+res86 = [(12, 45, 66), (91, 123, 87)] ^.. folded ._2 . to show .to reverse . folded
+
+--very interesting behavior without *return* 
+res87 = [(1, "a"), (2, "b"), (3, "c"), (4, "d")] ^.. folded . folding (\(a,b) -> if even a then return b else [])
