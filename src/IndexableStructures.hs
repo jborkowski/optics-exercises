@@ -1,13 +1,13 @@
+{-# LANGUAGE InstanceSigs    #-}
+{-# LANGUAGE RankNTypes      #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE InstanceSigs #-}
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE TypeFamilies    #-}
 module IndexableStructures where
 
-import Control.Lens
-import qualified Data.Map as M
-import qualified Data.Set as S
-import qualified Data.Text as T
+import           Control.Lens
+import qualified Data.Map     as M
+import qualified Data.Set     as S
+import qualified Data.Text    as T
 
 -- Fill in the blanks
 ex11 = ["Larry", "Curly", "Moe"] & ix 1 .~ "Wiggly"
