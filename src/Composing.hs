@@ -1,10 +1,10 @@
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE FlexibleInstances   #-}
+{-# LANGUAGE RankNTypes          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TemplateHaskell     #-}
+{-# LANGUAGE TypeApplications    #-}
+{-# LANGUAGE TypeFamilies        #-}
 
 module Composing where
 
@@ -68,7 +68,7 @@ updateStreetNumber modify existingStreetNumber =
   }
 
 
-  
+
 movedSherlock =
   (updateAddress . updateStreetAddress . updateStreetNumber) (const "221A") sherlock
 
@@ -91,7 +91,7 @@ waldo = view (_2 . _1 . _2) ("Ginerva", ((("Galileo", "Waldo"), "Malfoy")))
 
 -- Lens s t a b
 -- Armadillo - <a> pre-focus
--- Hedgehog - <b> post-focus 
+-- Hedgehog - <b> post-focus
 -- Platypus - <s> pre-action
 -- BabySloth - <t> post-action
 

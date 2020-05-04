@@ -1,23 +1,23 @@
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE FlexibleInstances   #-}
+{-# LANGUAGE RankNTypes          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TemplateHaskell     #-}
+{-# LANGUAGE TypeApplications    #-}
+{-# LANGUAGE TypeFamilies        #-}
 
 module Basic where
 
-import Control.Lens
-import Control.Lens.Unsound
-import Control.Applicative
-import Data.Char
-import qualified Data.Map as M
-import qualified Data.Set as S
-import qualified Data.Text as T
+import           Control.Applicative
+import           Control.Lens
+import           Control.Lens.Unsound
+import           Data.Char
+import qualified Data.Map             as M
+import qualified Data.Set             as S
+import qualified Data.Text            as T
 
 -- Leading undersocres in field names, That's no accident.
--- Lenses provide more convenient and powerful interface than stock Haskell  
+-- Lenses provide more convenient and powerful interface than stock Haskell
 data Ship =
   Ship { _name :: String
        , _numCrew :: Int
@@ -95,12 +95,12 @@ getPetName pet = view petName pet
 
 
 getConditional :: (Bool, a, a) -> a
-getConditional tuple = case tuple of (True, a, _)  -> a 
+getConditional tuple = case tuple of (True, a, _)  -> a
                                      (False, _, a) -> a
 
 setConditional :: (Bool, a, a) -> a -> (Bool, a, a)
 setConditional tuple newValue = case tuple of (True, _, a)  -> (True, newValue, a)
-                                              (False, a, _) -> (False, a, newValue)  
+                                              (False, a, _) -> (False, a, newValue)
 
 conditional :: Lens' (Bool, a, a) a
 conditional = lens getConditional setConditional

@@ -1,8 +1,9 @@
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE RankNTypes      #-}
 {-# LANGUAGE TemplateHaskell #-}
 module Prism where
 
-import Control.Lens
+import           Control.Lens
+import qualified Data.Set     as S
 
 data ContactInfo =
       Email String
@@ -87,4 +88,13 @@ _Cycles n = prism' embed match
     embed xs = concatN n xs
     extractWord n xs = take (length xs `div` n) xs
     concatN n w = concat $ replicate n w
+
+-- 1. Implement the following prism and determine whether it’s lawful
+_Contains :: forall a. Ord a => a -> Prism' (S.Set a) (S.Set a)
+_Contains = prism' embed match
+  where
+    match :: a -> Maybe (S.Set a)
+    match = undefined
+    embed :: (S.Set a) -> a
+    embed = undefined
 
