@@ -33,15 +33,18 @@ ex13 = [Just "Mind", Just "Power", Nothing, Just "Soul", Nothing, Just "Time"] &
 ex14 = Left (Right True, "Eureka!") & _Left . _1 . _Right %~ not
 -- Res ex14: Left (Right False, "Eureka!")
 
+ex15 :: [[Char]]
 ex15 = _Cons # ("Do",["Re", "Mi"])
 -- Res ex15: ["Do", "Re", "Mi"]
 
+ex16 :: Bool
 ex16 = isn't (_Show :: Prism' String Int) "not an int"
 -- Res ex16: True
 
 -- Write an expression to get the output from the provided input.
 
 input1 = (Just 1, Nothing, Just 3)
+output1 :: [Integer]
 output1 = input1 ^.. each . _Just
 -- expected: [1, 3]
 
@@ -90,11 +93,10 @@ _Cycles n = prism' embed match
     concatN n w = concat $ replicate n w
 
 -- 1. Implement the following prism and determine whether it’s lawful
-_Contains :: forall a. Ord a => a -> Prism' (S.Set a) (S.Set a)
-_Contains = prism' embed match
-  where
-    match :: a -> Maybe (S.Set a)
-    match = undefined
-    embed :: (S.Set a) -> a
-    embed = undefined
-
+-- _Contains :: forall a. Ord a => a -> Prism' (S.Set a) (S.Set a)
+-- _Contains = prism' embed match
+--   where
+--     match :: a -> Maybe (S.Set a)
+--     match = undefined
+--     embed :: (S.Set a) -> a
+--     embed = undefined
