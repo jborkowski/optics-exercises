@@ -38,3 +38,24 @@ fahrenheit = iso celsiusToF fahrenheitToC
     fahrenheitToC f = (f - 32) * (5/9)
     celsiusToF :: Double -> Double
     celsiusToF c = (c * (9/5)) + 32
+
+---------------------------------------------------------------------------------
+--
+--  Projected Isos - Exercises
+--
+---------------------------------------------------------------------------------
+
+ex21 = ("Beauty", "Age") ^. mapping reversed . swapped
+-- result: ("egA","Beauty")
+
+ex22 = [True, False, True] ^. mapping (involuted  not)
+-- result:  [False,True,False]
+
+ex23 = [True, False, True] & mapping (involuted not) %~ filter id
+-- result: [False]
+
+isNot :: Int -> Int
+isNot = not ^. dimapping enum (from enum)
+
+isNot' :: Int -> Int
+isNot' = enum %~ not
