@@ -1,3 +1,7 @@
+{-# LANGUAGE InstanceSigs    #-}
+{-# LANGUAGE RankNTypes      #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies    #-}
 module Isos where
 
 import Control.Lens
